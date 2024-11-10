@@ -7,6 +7,13 @@ const styles = StyleSheet.create({
     // backgroundColor : 'fff',
     justifyContent: "center",
   },
+  box: {
+    padding: 20,
+    borderWidth: 2,
+    borderColor: "blue",
+    borderRadius: 5,
+    alignItems: "center",
+  },
   title: {
     marginTop: 16,
     paddingVertical: 8,
@@ -130,7 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dim background
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   input: {
     height: 40,
