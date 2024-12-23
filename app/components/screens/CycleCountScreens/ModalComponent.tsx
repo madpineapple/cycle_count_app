@@ -7,13 +7,15 @@ interface Props {
   isVisible: boolean;
   onClose: () => void;
   data: {
-    item_id: number;
-    item_location: string;
-    item_number: string;
-    item_name: string;
-    item_lot_number: string;
-    item_expiration_date: string;
-    item_quantity: number;
+    Id: number;
+    PartNumber: string;
+    PartDescription: string;
+    Location: string;
+    Qty: number;
+    QtyCommitted: number;
+    Tracking_Lot_Number: string;
+    Tracking_Expiration_Date: string;
+    Tracking_Vendor_Lot: string;
   };
   confrimCount(value: number): void;
 }
@@ -24,6 +26,7 @@ const ModalComponent: React.FC<Props> = ({
   data,
   confrimCount,
 }) => {
+  console.log(data);
   return (
     <Modal
       transparent
@@ -35,12 +38,12 @@ const ModalComponent: React.FC<Props> = ({
         <ScrollView>
           <View style={styles.centeredView}>
             <Text style={styles.modalView}>
-              Is the following count accurate? : {data.item_quantity}
+              Is the following count accurate? : {data.Qty}
             </Text>
             <View style={styles.buttonView}>
               <Pressable
                 style={styles.confirmButton}
-                onPress={() => confrimCount(data.item_id)}
+                onPress={() => confrimCount(data.Id)}
               >
                 <Text>Yes</Text>
               </Pressable>

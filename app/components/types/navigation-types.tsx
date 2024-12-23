@@ -1,14 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
 
 export type ItemData = {
-  item_id: number;
-  item_location: string;
-  item_number: string;
-  item_name: string;
-  item_lot_number: string;
-  item_expiration_date: string;
-  item_quantity: number;
-  item_weight: number;
+  Id: number;
+  PartNumber: string;
+  PartDescription: string;
+  Location: string;
+  Qty: number;
+  QtyCommitted: number;
+  Tracking_Lot_Number: string;
+  Tracking_Expiration_Date: string;
+  Tracking_Vendor_Lot: string;
 };
 export type BuildItemData = {
   id: number;

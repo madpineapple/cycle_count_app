@@ -19,7 +19,7 @@ const ChangeCountScreen: React.FC<Props> = ({ route }) => {
   const [weightInputValue, setWeightInputValue] = React.useState("0");
   const [bagInputValue, setBagInputValue] = React.useState("0");
   const [partialInputValue, setPartialInputValue] = React.useState("0");
-  const [itemQuantity, setItemQuantity] = React.useState(items.item_quantity);
+  const [itemQuantity, setItemQuantity] = React.useState(items.Qty);
   const [isVisible, setIsVisible] = React.useState(false);
   const [setCountIsVisible, setSetCountIsVisible] = React.useState(false);
 
@@ -32,9 +32,9 @@ const ChangeCountScreen: React.FC<Props> = ({ route }) => {
   };
 
   const changeItemQuantity = () => {
-    const index = dataArray.findIndex((item) => item.item_id === items.item_id);
+    const index = dataArray.findIndex((item) => item.Id === items.Id);
     const newDataArray = [...dataArray];
-    newDataArray[index].item_quantity = itemQuantity;
+    newDataArray[index].Qty = itemQuantity;
     setDataArray(newDataArray);
     navigation.navigate("Cycle Count", { dataArray, setDataArray });
   };
@@ -43,7 +43,7 @@ const ChangeCountScreen: React.FC<Props> = ({ route }) => {
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.itemText}>
-          Please input weight of complete bag of {items.item_name} in kg
+          Please input weight of complete bag of {items.PartDescription} in kg
         </Text>
         <TextInput
           style={styles.input}
@@ -53,7 +53,7 @@ const ChangeCountScreen: React.FC<Props> = ({ route }) => {
           onChangeText={(weightVal) => setWeightInputValue(weightVal)}
         ></TextInput>
         <Text style={styles.itemText}>
-          Please input number of bags of {items.item_name}
+          Please input number of bags of {items.PartDescription}
         </Text>
         <TextInput
           style={styles.input}

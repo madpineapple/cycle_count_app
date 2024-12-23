@@ -1,42 +1,34 @@
-import React, { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { Button, Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native";
 import styles from "../../styles";
-import { cycleCountListArr } from "../../data/sampleData";
+//import { cycleCountListArr } from "../../data/sampleData";
 import ModalComponent from "./ModalComponent";
 import { useNavigation } from "@react-navigation/native";
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types/navigation-types";
+import { ItemData, RootStackParamList } from "../../types/navigation-types";
+import CsvImporter from "../CsvImporter";
+import { sampleJson } from "../../data/sampleJson";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Cycle Count">;
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 const CycleCount: React.FC<Props> = ({ route }) => {
-  //Do I still need this? Probably
-  interface ItemData {
-    item_id: number;
-    item_location: string;
-    item_number: string;
-    item_name: string;
-    item_lot_number: string;
-    item_expiration_date: string;
-    item_quantity: number;
-    item_weight: number;
-  }
+  const cycleCountListArr = sampleJson;
 
-  const { dataArray, setDataArray } = route.params;
+  const [dataArray, setDataArray] = useState<ItemData[]>(sampleJson);
 
   const groupedByLocation = dataArray.reduce((acc, item) => {
     // Check if the location already exists in the accumulator
-    if (!acc[item.item_location]) {
+    if (!acc[item.Location]) {
       // If not, create an empty array for this location
-      acc[item.item_location] = [];
+      acc[item.Location] = [];
     }
     // Add the current item to the array for its location
-    acc[item.item_location].push(item);
+    acc[item.Location].push(item);
     return acc;
   }, {} as Record<string, typeof cycleCountListArr>);
 
@@ -53,26 +45,28 @@ const CycleCount: React.FC<Props> = ({ route }) => {
   const [confirmCountModal, setConfirmCountModalVisible] = useState(false);
 
   const [itemData, setItemData] = React.useState<ItemData>({
-    item_id: 0,
-    item_location: "",
-    item_number: "",
-    item_name: "",
-    item_lot_number: "",
-    item_expiration_date: "",
-    item_quantity: 0,
-    item_weight: 0,
+    Id: 0,
+    PartNumber: " ",
+    PartDescription: " ",
+    Location: " ",
+    Qty: 0,
+    QtyCommitted: 0,
+    Tracking_Lot_Number: " ",
+    Tracking_Expiration_Date: "",
+    Tracking_Vendor_Lot: " ",
   });
 
   const prepareItemData = (item: ItemData) => {
     setItemData({
       ...itemData,
-      item_id: item.item_id,
-      item_location: item.item_location,
-      item_number: item.item_number,
-      item_name: item.item_name,
-      item_lot_number: item.item_lot_number,
-      item_expiration_date: item.item_expiration_date,
-      item_quantity: item.item_quantity,
+      PartNumber: item.PartNumber,
+      PartDescription: item.PartDescription,
+      Location: item.Location,
+      Qty: item.Qty,
+      QtyCommitted: item.QtyCommitted,
+      Tracking_Lot_Number: item.Tracking_Lot_Number,
+      Tracking_Expiration_Date: item.Tracking_Expiration_Date,
+      Tracking_Vendor_Lot: item.Tracking_Vendor_Lot,
     });
   };
 
@@ -86,10 +80,10 @@ const CycleCount: React.FC<Props> = ({ route }) => {
   };
 
   const confirmCount = (index: number) => {
-    const updatedArray = cycleCountListArr.filter(
-      (item) => item.item_id !== index
-    );
+    const updatedArray = cycleCountListArr.filter((item) => item.Id !== index);
+    console.log("updated array: ", updatedArray);
     setDataArray(updatedArray);
+    console.log("new array: ", dataArray);
     closeModal();
   };
 
@@ -100,9 +94,19 @@ const CycleCount: React.FC<Props> = ({ route }) => {
     navigation.navigate("Correct Count", { dataArray, setDataArray, items });
   };
 
+  const handleParsedData = (data: any[]) => {
+    const dataWithIds = data.map((row, index) => ({
+      Id: index + 1,
+      ...row,
+    }));
+    setDataArray(dataWithIds);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cycle count</Text>
+      <CsvImporter onDataParsed={(data) => handleParsedData(data)} />
+
       <ScrollView>
         {Object.keys(groupedByLocation).map((location, locationIndex) => (
           <View key={location}>
@@ -128,28 +132,29 @@ const CycleCount: React.FC<Props> = ({ route }) => {
                     key={index}
                   >
                     <Text style={styles.itemText}>
-                      Material#: {item.item_number}
-                    </Text>
-                    <Text style={styles.itemText}>Desc: {item.item_name}</Text>
-                    <Text style={styles.itemText}>
-                      Lot#: {item.item_lot_number}
+                      Material#: {item.PartNumber}
                     </Text>
                     <Text style={styles.itemText}>
-                      ExpDate: {item.item_expiration_date}
+                      Desc: {item.PartDescription}
                     </Text>
                     <Text style={styles.itemText}>
-                      Qty: {item.item_quantity}
+                      Lot#: {item.Tracking_Lot_Number}
                     </Text>
                     <Text style={styles.itemText}>
-                      Weight: {item.item_weight}
+                      ExpDate: {item.Tracking_Expiration_Date}
                     </Text>
+                    <Text style={styles.itemText}>Qty: {item.Qty}</Text>
+                    <Text style={styles.itemText}>
+                      QtyCommitted: {item.QtyCommitted}
+                    </Text>
+
                     <View style={styles.buttonView}>
                       <Pressable
                         style={styles.confirmButton}
                         onPress={() => openModal(item)}
                       >
                         <Text style={styles.buttonText}>
-                          Confirm count {item.item_quantity}
+                          Confirm count {item.Qty}
                         </Text>
                       </Pressable>
                       <ModalComponent
