@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Modal, Pressable } from "react-native";
 import styles from "../../styles";
 import { ScrollView } from "react-native";
+import { ItemData } from "../../types/navigation-types";
 
 interface Props {
   isVisible: boolean;
@@ -17,7 +18,7 @@ interface Props {
     Tracking_Expiration_Date: string;
     Tracking_Vendor_Lot: string;
   };
-  confrimCount(value: number): void;
+  confrimCount(value: ItemData): void;
 }
 
 const ModalComponent: React.FC<Props> = ({
@@ -26,7 +27,7 @@ const ModalComponent: React.FC<Props> = ({
   data,
   confrimCount,
 }) => {
-  console.log(data);
+  console.log("modal data: ", data.Id);
   return (
     <Modal
       transparent
@@ -43,7 +44,7 @@ const ModalComponent: React.FC<Props> = ({
             <View style={styles.buttonView}>
               <Pressable
                 style={styles.confirmButton}
-                onPress={() => confrimCount(data.Id)}
+                onPress={() => confrimCount(data)}
               >
                 <Text>Yes</Text>
               </Pressable>
