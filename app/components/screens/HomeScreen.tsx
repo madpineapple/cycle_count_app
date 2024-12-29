@@ -15,8 +15,6 @@ import { sampleBuildAssemblyDataArr } from "../data/sampleBuildAssemblyData";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 const HomeScreen = () => {
   const navigation = useNavigation<NavigationProp>();
-  const [dataArray, setDataArray] =
-    React.useState<ItemData[]>(cycleCountListArr);
 
   const [buildDataArray, setBuildDataArray] = React.useState<BuildItemData[]>(
     sampleBuildAssemblyDataArr
@@ -26,9 +24,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Pressable
         style={styles.mainMenuButton}
-        onPress={() =>
-          navigation.navigate("Cycle Count", { dataArray, setDataArray })
-        }
+        onPress={() => navigation.navigate("Cycle Count")}
       >
         <Text style={styles.buttonText}>Cycle Count</Text>
       </Pressable>

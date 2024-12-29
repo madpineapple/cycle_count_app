@@ -27,7 +27,6 @@ const ModalComponent: React.FC<Props> = ({
   data,
   confrimCount,
 }) => {
-  console.log("modal data: ", data.Id);
   return (
     <Modal
       transparent

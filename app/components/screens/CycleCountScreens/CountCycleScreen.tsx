@@ -92,6 +92,13 @@ const CycleCount: React.FC<Props> = ({ route }) => {
     closeModal();
   };
 
+  //Confrim count
+  const handleNavigateToConfirmCount = (items: ItemData) => {
+    navigation.navigate("Confirm Count", {
+      confirmCount,
+      items,
+    });
+  };
   const navigation = useNavigation<NavigationProp>();
 
   const navigateToChangeCountScreen = (items: ItemData) => {
@@ -159,18 +166,19 @@ const CycleCount: React.FC<Props> = ({ route }) => {
                     <View style={styles.buttonView}>
                       <Pressable
                         style={styles.confirmButton}
-                        onPress={() => openModal(item)}
+                        onPress={() => handleNavigateToConfirmCount(item)}
                       >
                         <Text style={styles.buttonText}>
                           Confirm count {item.Qty}
                         </Text>
                       </Pressable>
-                      <ModalComponent
+
+                      {/* <ModalComponent
                         isVisible={confirmCountModal}
                         onClose={closeModal}
                         data={itemData}
                         confrimCount={() => confirmCount(itemData)}
-                      />
+                      /> */}
                       <Pressable
                         style={styles.alterButton}
                         onPress={() => navigateToChangeCountScreen(item)}

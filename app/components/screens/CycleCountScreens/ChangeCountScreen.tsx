@@ -5,7 +5,7 @@ import { TextInput } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation-types";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScrollView } from "react-native";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Correct Count">;
@@ -36,7 +36,7 @@ const ChangeCountScreen: React.FC<Props> = ({ route }) => {
     const newDataArray = [...dataArray];
     newDataArray[index].Qty = itemQuantity;
     setDataArray(newDataArray);
-    navigation.navigate("Cycle Count", { dataArray, setDataArray });
+    navigation.navigate("Cycle Count");
   };
 
   return (

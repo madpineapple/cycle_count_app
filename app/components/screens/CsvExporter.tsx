@@ -1,21 +1,26 @@
-import React, { useState } from "react";
 import Papa from "papaparse";
 import { ItemData } from "../types/navigation-types";
 import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
 import { Button } from "react-native";
 
 interface CsvExporterProps {
   dataToBeUnParsed: ItemData[];
 }
 const CsvExporter: React.FC<CsvExporterProps> = ({ dataToBeUnParsed }) => {
-  const [errors, setErrors] = useState<any[]>([]);
   const exportData = async () => {
     try {
       const csvString = Papa.unparse(dataToBeUnParsed);
-      const fileName = "cycleCountUpdate.csv";
+      const currentDate = new Date();
+      const fileName = "cycleCountUpdate" + currentDate + ".csv";
       const path = `${FileSystem.documentDirectory}${fileName}`;
       await FileSystem.writeAsStringAsync(path, csvString);
-      console.log(`File saved successfully at: ${path}`);
+
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(path);
+      } else {
+        console.log("Sharing is not available");
+      }
     } catch (error) {
       console.error("Error exporting data:", error);
     }

@@ -32,14 +32,15 @@ export type OrderData = {
 
 export type RootStackParamList = {
   Home: undefined;
-  "Cycle Count": {
-    dataArray: ItemData[];
-    setDataArray: Dispatch<SetStateAction<ItemData[]>>;
-  };
+  "Cycle Count": undefined;
   "Correct Count": {
     dataArray: ItemData[];
     setDataArray: Dispatch<SetStateAction<ItemData[]>>;
     items: ItemData;
+  };
+  "Confirm Count": {
+    items: ItemData;
+    confirmCount(value: ItemData): void;
   };
   "BA Screen": {
     buildDataArray: BuildItemData[];
