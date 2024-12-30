@@ -26,6 +26,6 @@ const CsvExporter: React.FC<CsvExporterProps> = ({ dataToBeUnParsed }) => {
     }
   };
 
-  return <Button title="Export Data" onPress={exportData} />;
+  return <Button color="#a7bcb9" title="Export Data" onPress={exportData} />;
 };
 export default CsvExporter;

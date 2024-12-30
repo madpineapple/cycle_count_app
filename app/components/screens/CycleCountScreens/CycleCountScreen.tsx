@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native";
 import styles from "../../styles";
-import ModalComponent from "./ModalComponent";
 import { useNavigation } from "@react-navigation/native";
 import {
   NativeStackNavigationProp,
@@ -11,7 +10,6 @@ import {
 import { ItemData, RootStackParamList } from "../../types/navigation-types";
 import CsvImporter from "../CsvImporter";
 import { sampleJson } from "../../data/sampleJson";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import CsvExporter from "../CsvExporter";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Cycle Count">;
@@ -72,24 +70,11 @@ const CycleCount: React.FC<Props> = ({ route }) => {
     });
   };
 
-  //Modal opening and closing functions
-  const [confirmCountModal, setConfirmCountModalVisible] = useState(false);
-
-  const openModal = (item: ItemData) => {
-    setConfirmCountModalVisible(true);
-    prepareItemData(item);
-  };
-
-  const closeModal = () => {
-    setConfirmCountModalVisible(false);
-  };
-
   //If count is correct confirm count function
   const confirmCount = (data: ItemData) => {
     const updatedArray = dataArray.filter((item) => item.Id !== data.Id);
     setConfirmedDataArray((prev) => [...prev, data]);
     setDataArray(updatedArray);
-    closeModal();
   };
 
   //Confrim count
@@ -120,8 +105,6 @@ const CycleCount: React.FC<Props> = ({ route }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Cycle count</Text>
       <CsvImporter onDataParsed={(data) => handleParsedData(data)} />
-      <CsvExporter dataToBeUnParsed={confirmedDataArray} />
-
       <ScrollView>
         {Object.keys(groupedByLocation).map((location, locationIndex) => (
           <View key={location}>
@@ -172,13 +155,6 @@ const CycleCount: React.FC<Props> = ({ route }) => {
                           Confirm count {item.Qty}
                         </Text>
                       </Pressable>
-
-                      {/* <ModalComponent
-                        isVisible={confirmCountModal}
-                        onClose={closeModal}
-                        data={itemData}
-                        confrimCount={() => confirmCount(itemData)}
-                      /> */}
                       <Pressable
                         style={styles.alterButton}
                         onPress={() => navigateToChangeCountScreen(item)}
@@ -193,6 +169,9 @@ const CycleCount: React.FC<Props> = ({ route }) => {
           </View>
         ))}
       </ScrollView>
+      {confirmedDataArray.length > 0 && (
+        <CsvExporter dataToBeUnParsed={confirmedDataArray} />
+      )}
     </View>
   );
 };

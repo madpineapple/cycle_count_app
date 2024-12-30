@@ -4,8 +4,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    // backgroundColor : 'fff',
+  },
+  confirmCountContainer: {
     justifyContent: "center",
+    alignItems: "center",
   },
   box: {
     padding: 20,
@@ -46,21 +48,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+  //Text styles
   headerText: {
     fontSize: 20,
   },
   itemText: {
     fontWeight: "bold",
-    // color: '#ffffff'
   },
   text: {
     fontSize: 30,
-    backgroundColor: "#000",
+  },
+  confirmCountText: {
+    padding: 50,
+    width: "100%", // Makes the text take the full width
+    textAlign: "center",
+    color: "#FFFFFF",
+    backgroundColor: "#008000",
+    fontSize: 30,
   },
   biggerText: {
     fontSize: 50,
     fontWeight: "bold",
   },
+
+  // Button styles
   buttonView: {
     flexDirection: "row",
     padding: 20,
@@ -112,26 +124,8 @@ const styles = StyleSheet.create({
     color: "#f5f8f9",
     fontSize: 16,
   },
-  modalView: {
-    margin: 15,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    height: "30%",
-    width: "80%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+  cancelButton: {
+    color: "#EF0107",
   },
   centeredView: {
     flex: 1,

@@ -21,15 +21,17 @@ const ConfirmCountScreen: React.FC<Props> = ({ route }) => {
   };
   return (
     <View>
-      <Text>Confirm Item Count?</Text>
-      <Text>{data.Qty}</Text>
+      <View style={styles.confirmCountContainer}>
+        <Text style={styles.confirmCountText}>Confirm Item Count?</Text>
+        <Text style={styles.biggerText}>QTY: {data.Qty}</Text>
+      </View>
+
       <Button title="Confirm" onPress={handleConfirm} />
-      <Pressable
-        style={styles.confirmButton}
+      <Button
+        color={"#EF0107"}
+        title="Cancel"
         onPress={() => navigation.navigate("Cycle Count")}
-      >
-        <Text>Cancel</Text>
-      </Pressable>
+      />
     </View>
   );
 };

@@ -9,7 +9,6 @@ import {
   BuildItemData,
 } from "../types/navigation-types";
 import styles from "../styles";
-import { cycleCountListArr } from "../data/sampleData";
 import { sampleBuildAssemblyDataArr } from "../data/sampleBuildAssemblyData";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;

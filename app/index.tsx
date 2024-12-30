@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./components/screens/HomeScreen";
-import CountCycleScreen from "./components/screens/CycleCountScreens/CountCycleScreen";
+import CountCycleScreen from "./components/screens/CycleCountScreens/CycleCountScreen";
 import ChangeCountScreen from "./components/screens/CycleCountScreens/ChangeCountScreen";
 import BuildAssemblyPickScreen from "./components/screens/BAScreens/BuildAssemblyScreen";
 import IndividualItemPick from "./components/screens/BAScreens/IndividualItemPick";
