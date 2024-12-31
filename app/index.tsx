@@ -32,7 +32,9 @@ const WelcomePage = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "Welcome" }}
+          options={{
+            title: "Welcome",
+          }}
         />
 
         <Stack.Screen name="Cycle Count" component={CountCycleScreen} />

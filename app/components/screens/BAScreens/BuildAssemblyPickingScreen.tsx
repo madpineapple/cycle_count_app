@@ -33,13 +33,15 @@ const BuildAssemblyPickingScreen: React.FC<Props> = ({ route }) => {
 
       <ScrollView>
         {order.order_data.map((item) => (
-          <Pressable
-            style={styles.calculatorButton}
-            // onPress={() => navigation.navigate("Test Camera Screen")}
-            onPress={() => IndividualPickOpen(item)}
-          >
-            <Text>{item.material_name}</Text>
-          </Pressable>
+          <View key={item.id}>
+            <Pressable
+              style={styles.calculatorButton}
+              // onPress={() => navigation.navigate("Test Camera Screen")}
+              onPress={() => IndividualPickOpen(item)}
+            >
+              <Text>{item.material_name}</Text>
+            </Pressable>
+          </View>
         ))}
       </ScrollView>
     </View>

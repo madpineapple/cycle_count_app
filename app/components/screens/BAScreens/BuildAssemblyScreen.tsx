@@ -9,9 +9,9 @@ import {
 } from "@react-navigation/native-stack";
 import {
   BuildItemData,
-  OrderData,
   RootStackParamList,
 } from "../../types/navigation-types";
+import CsvImporter from "../CsvImporter";
 
 type Props = NativeStackScreenProps<RootStackParamList, "BA Screen">;
 
@@ -25,11 +25,15 @@ const BAScreen: React.FC<Props> = ({ route }) => {
     setBuildDataArray({ ...buildDataArray });
     navigation.navigate("BA Pick Screen", { order });
   };
+  const handleParsedData = (data: any) => {
+    console.log("data");
+  };
 
   return (
     <View style={styles.container}>
-      {sampleBuildAssemblyDataArr.map((order, orderIndex) => (
-        <View key={orderIndex}>
+      <CsvImporter onDataParsed={(data) => handleParsedData(data)} />
+      {sampleBuildAssemblyDataArr.map((order) => (
+        <View key={order.id}>
           <Pressable
             style={styles.mainMenuButton}
             onPress={() => passData(order)}

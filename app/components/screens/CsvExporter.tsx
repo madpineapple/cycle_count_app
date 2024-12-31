@@ -3,11 +3,26 @@ import { ItemData } from "../types/navigation-types";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Button } from "react-native";
+import {
+  clearConfirmedCountData,
+  getConfirmedCountData,
+} from "../cycleCountCSVStorage";
+import { useEffect, useState } from "react";
 
 interface CsvExporterProps {
   dataToBeUnParsed: ItemData[];
 }
 const CsvExporter: React.FC<CsvExporterProps> = ({ dataToBeUnParsed }) => {
+  const [isExportDisabled, setIsExportDisabled] = useState(true);
+
+  useEffect(() => {
+    const checkData = async () => {
+      const savedConfirmedData = await getConfirmedCountData();
+      setIsExportDisabled(savedConfirmedData.length === 0);
+    };
+    checkData();
+  }, []);
+
   const exportData = async () => {
     try {
       const csvString = Papa.unparse(dataToBeUnParsed);
@@ -18,6 +33,9 @@ const CsvExporter: React.FC<CsvExporterProps> = ({ dataToBeUnParsed }) => {
 
       if (await Sharing.isAvailableAsync()) {
         await Sharing.shareAsync(path);
+        await clearConfirmedCountData();
+        const updatedConfirmedData = await getConfirmedCountData();
+        setIsExportDisabled(updatedConfirmedData.length === 0);
       } else {
         console.log("Sharing is not available");
       }
@@ -26,6 +44,13 @@ const CsvExporter: React.FC<CsvExporterProps> = ({ dataToBeUnParsed }) => {
     }
   };
 
-  return <Button color="#a7bcb9" title="Export Data" onPress={exportData} />;
+  return (
+    <Button
+      color="#a7bcb9"
+      title="Export Data"
+      onPress={exportData}
+      disabled={isExportDisabled}
+    />
+  );
 };
 export default CsvExporter;

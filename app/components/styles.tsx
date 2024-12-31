@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flexDirection: "row",
     justifyContent: "center",
-    maxWidth: 200,
     margin: 20,
   },
   buttonText: {
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
-    padding: 10,
+    minWidth: 200,
   },
 });
 export default styles;

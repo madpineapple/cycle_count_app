@@ -1,27 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native";
 import styles from "../../styles";
 import { useNavigation } from "@react-navigation/native";
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ItemData, RootStackParamList } from "../../types/navigation-types";
 import CsvImporter from "../CsvImporter";
 import { sampleJson } from "../../data/sampleJson";
 import CsvExporter from "../CsvExporter";
+import {
+  addToConfirmedCount,
+  clearCycleCountData,
+  getConfirmedCountData,
+  loadCurrentCsvData,
+  removeCurrentCsvItem,
+  saveCurrentCsvData,
+} from "../../cycleCountCSVStorage";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Cycle Count">;
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
-const CycleCount: React.FC<Props> = ({ route }) => {
+const CycleCount = () => {
+  //Don't really like this look into removing this
   const cycleCountListArr = sampleJson;
+
+  const navigation = useNavigation<NavigationProp>();
 
   const [dataArray, setDataArray] = useState<ItemData[]>([]);
   const [confirmedDataArray, setConfirmedDataArray] = useState<ItemData[]>([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const savedData = await loadCurrentCsvData();
+      const savedConfirmedData = await getConfirmedCountData();
+      console.log("savedData:", savedData.length);
+      console.log("confirmed data", savedConfirmedData.length);
+      setDataArray(savedData);
+      setConfirmedDataArray(savedConfirmedData);
+    };
+    fetchData();
+  }, []);
+
   const groupedByLocation = dataArray.reduce((acc, item) => {
+    saveCurrentCsvData(dataArray);
+
     // Check if the location already exists in the accumulator
     if (!acc[item.Location]) {
       // If not, create an empty array for this location
@@ -30,6 +51,7 @@ const CycleCount: React.FC<Props> = ({ route }) => {
     // Add the current item to the array for its location
     acc[item.Location].push(item);
     return acc;
+    //This feels hacky need to look into this
   }, {} as Record<string, typeof cycleCountListArr>);
 
   //Track which location is expanded
@@ -54,7 +76,8 @@ const CycleCount: React.FC<Props> = ({ route }) => {
     Tracking_Vendor_Lot: " ",
   });
 
-  //Prepare individual dat to be sent to modal
+  //Prepare individual data to be send to individual functions
+  //Do I really need to do this?
   const prepareItemData = (item: ItemData) => {
     setItemData({
       ...itemData,
@@ -73,18 +96,18 @@ const CycleCount: React.FC<Props> = ({ route }) => {
   //If count is correct confirm count function
   const confirmCount = (data: ItemData) => {
     const updatedArray = dataArray.filter((item) => item.Id !== data.Id);
+    removeCurrentCsvItem(data.Id);
+    addToConfirmedCount(data);
     setConfirmedDataArray((prev) => [...prev, data]);
     setDataArray(updatedArray);
   };
 
-  //Confrim count
   const handleNavigateToConfirmCount = (items: ItemData) => {
     navigation.navigate("Confirm Count", {
       confirmCount,
       items,
     });
   };
-  const navigation = useNavigation<NavigationProp>();
 
   const navigateToChangeCountScreen = (items: ItemData) => {
     prepareItemData(items);
@@ -96,9 +119,8 @@ const CycleCount: React.FC<Props> = ({ route }) => {
       Id: index,
       ...row,
     }));
+    clearCycleCountData;
     setDataArray(dataWithIds);
-    console.log("data with Ids ", dataWithIds);
-    console.log("data", dataArray);
   };
 
   return (
@@ -169,9 +191,7 @@ const CycleCount: React.FC<Props> = ({ route }) => {
           </View>
         ))}
       </ScrollView>
-      {confirmedDataArray.length > 0 && (
-        <CsvExporter dataToBeUnParsed={confirmedDataArray} />
-      )}
+      <CsvExporter dataToBeUnParsed={confirmedDataArray} />
     </View>
   );
 };
