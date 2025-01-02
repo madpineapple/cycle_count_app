@@ -9,8 +9,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 
 import {
-  BuildItemData,
-  OrderData,
+  BuildOrderData,
   RootStackParamList,
 } from "../../types/navigation-types";
 import { ScrollView } from "react-native";
@@ -22,7 +21,7 @@ const BuildAssemblyPickingScreen: React.FC<Props> = ({ route }) => {
   const { order } = route.params;
   const navigation = useNavigation<NavigationProp>();
 
-  const IndividualPickOpen = (orderArray: OrderData) => {
+  const IndividualPickOpen = (orderArray: BuildOrderData) => {
     console.log(orderArray);
     navigation.navigate("Individual Pick Item Screen", { orderArray });
   };

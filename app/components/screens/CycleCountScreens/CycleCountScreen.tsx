@@ -77,7 +77,7 @@ const CycleCount = () => {
   });
 
   //Prepare individual data to be send to individual functions
-  //Do I really need to do this?
+  //Do I really need to do this? probably not remove at later date
   const prepareItemData = (item: ItemData) => {
     setItemData({
       ...itemData,

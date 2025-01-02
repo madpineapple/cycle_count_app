@@ -17,7 +17,7 @@ type Props = NativeStackScreenProps<
 >;
 
 const IndividualPickScreen: React.FC<Props> = ({ route }) => {
-  const { orderArray } = route.params;
+  const { orderItem } = route.params;
 
   const [barcode, setBarcode] = useState("");
   const [weightInputValue, setWeightInputValue] = React.useState("0");
@@ -43,8 +43,8 @@ const IndividualPickScreen: React.FC<Props> = ({ route }) => {
       <ScrollView>
         <View style={styles.box}>
           <Text style={styles.headerText}>Pick Item</Text>
-          <Text style={styles.headerText}>{orderArray.material_name}</Text>
-          <Text style={styles.headerText}>{orderArray.material_number}</Text>
+          <Text style={styles.headerText}>{orderItem.Material_Name}</Text>
+          <Text style={styles.headerText}>{orderItem.Material_Number}</Text>
         </View>
         <View>
           <Text style={styles.itemText}> Please enter material lot number</Text>
@@ -53,6 +53,8 @@ const IndividualPickScreen: React.FC<Props> = ({ route }) => {
             value={barcode}
             onChangeText={setBarcode}
           />
+          <Text>Required QTY for build: {orderItem.Total_Input_per_Batch}</Text>
+
           <Text style={styles.itemText}> Please enter weight of bags</Text>
           <TextInput
             style={styles.input}
@@ -61,6 +63,7 @@ const IndividualPickScreen: React.FC<Props> = ({ route }) => {
             value={weightInputValue}
             onChangeText={(weightVal) => setWeightInputValue(weightVal)}
           />
+
           <Text style={styles.itemText}> Please enter number of bags</Text>
           <TextInput
             style={styles.input}

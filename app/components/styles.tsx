@@ -88,6 +88,16 @@ const styles = StyleSheet.create({
     maxWidth: 200,
     margin: 20,
   },
+  pickButton: {
+    backgroundColor: "#008000",
+    padding: 10,
+    borderRadius: 5,
+    elevation: 2,
+    textAlign: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 20,
+  },
   mainMenuButton: {
     backgroundColor: "#16b8f3",
     padding: 100,
@@ -117,7 +127,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flexDirection: "row",
     justifyContent: "center",
-    margin: 20,
+    margin: 5,
   },
   buttonText: {
     color: "#f5f8f9",

@@ -13,21 +13,27 @@ export type ItemData = {
 };
 export type BuildItemData = {
   id: number;
-  product_name: string;
-  build_assembly_number: string;
-  order_data: OrderData[];
+  Material_Number: string;
+  Material_Name: string;
+  Material_Lot: string;
+  Total_Input_per_Batch: number;
+  Qty_Issued: number;
+  Qty_Wasted: number;
+  Qty_Returned: number;
+  Picked_By: string;
+  Verified_By: string;
 };
-export type OrderData = {
+export type BuildOrderData = {
   id: number;
-  material_number: string;
-  material_name: string;
-  material_lot: string;
-  batch_weight: number;
-  qty_issued: string;
-  qty_wasted: string;
-  qty_returned: string;
-  picked_by: string;
-  verified_by: string;
+  Material_Number: string;
+  Material_Name: string;
+  Material_Lot: string;
+  Total_Input_per_Batch: number;
+  Qty_Issued: number;
+  Qty_Wasted: number;
+  Qty_Returned: number;
+  Picked_By: string;
+  Verified_By: string;
 };
 
 export type RootStackParamList = {
@@ -52,7 +58,7 @@ export type RootStackParamList = {
   "Test Camera Screen": undefined;
 
   "Individual Pick Item Screen": {
-    orderArray: OrderData;
+    orderItem: BuildItemData;
     //setOrderArray: Dispatch<SetStateAction<OrderData[]>>;
   };
 };
